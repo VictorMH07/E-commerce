@@ -1,0 +1,19 @@
+.navbar-brand{
+    font-size:1.5rem;
+}
+
+.nav-link{
+    transition:.3s;
+}
+
+.nav-link:hover{
+    color:#0dcaf0 !important;
+}
+
+.bi-heart{
+    cursor:pointer;
+}
+
+.bi-cart3{
+    cursor:pointer;
+}
