@@ -1,0 +1,14 @@
+<a class="text-decoration-none text-dark" [routerLink]="route()">
+    <div class="card category-card shadow-sm h-100">
+        <img
+            [src]="image()"
+            [alt]="name()"
+            class="card-img-top">
+        <div class="card-body">
+            <h5 class="text-center">
+                {{ name() }}
+            </h5>
+        </div>
+    </div>
+
+</a>
