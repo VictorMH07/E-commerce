@@ -5,13 +5,17 @@ import { CategoryCard } from '../../shared/components/category-card/category-car
 
 import { CATEGORIES } from '../../shared/data/categories';
 
+import { ProductCard } from '../../shared/components/product-card/product-card';
+import { PRODUCTS } from '../../shared/data/products';
+
 @Component({
   selector: 'app-home',
-  imports: [HeroBanner, CategoryCard],
+  imports: [HeroBanner, CategoryCard, ProductCard],
   templateUrl: './home.html',
   styleUrl: './home.css'
 
 })
 export class Home {
   categories = CATEGORIES;
+  products = PRODUCTS;
 }

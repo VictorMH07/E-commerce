@@ -1,1 +1,59 @@
-<p>product-detail works!</p>
+@if(product){
+<div class="container py-5">
+    <div class="mb-4">
+        <a routerLink="/" class="btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>
+            Volver al catálogo
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <img
+                [src]="product.image"
+                [alt]="product.name"
+                class="img-fluid rounded shadow">
+        </div>
+
+        <div class="col-md-6">
+            <h2 class="fw-bold">
+                {{ product.name }}
+            </h2>
+
+            <p class="text-warning fs-5">
+                ⭐ {{ product.rating }}
+            </p>
+
+            @if(product.oldPrice){
+                <p class="old-price">
+                    {{ product.oldPrice | currency:'COP':'symbol':'1.0-0' }}
+                </p>
+            }
+
+            <h3 class="price">
+                {{ product.price | currency:'COP':'symbol':'1.0-0' }}
+            </h3>
+
+            <p class="mt-4">
+                {{ product.description }}
+            </p>
+
+            <p>
+                <strong>Stock:</strong>
+                {{ product.stock }}
+            </p>
+
+            <button class="btn btn-primary btn-lg">
+                <i class="bi bi-cart-plus-fill me-2"></i>
+                Agregar al carrito
+            </button>
+        </div>
+    </div>
+</div>
+
+}@else{
+    <div class="container py-5 text-center">
+        <h2>
+            Producto no encontrado
+        </h2>
+    </div>
+}
