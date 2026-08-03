@@ -28,8 +28,8 @@
             {{ product().price | currency:'COP':'symbol':'1.0-0' }}
         </h4>
 
-        <button class="btn btn-primary mt-auto">
-            <i class="bi bi-cart-plus"></i>
+        <button class="btn btn-primary mt-auto w-100" (click)="addToCart()">
+            <i class="bi bi-cart-plus-fill me-2"></i>
             Agregar al carrito
         </button>
     </div>

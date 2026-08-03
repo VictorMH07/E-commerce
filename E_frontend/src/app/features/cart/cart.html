@@ -1,1 +1,30 @@
-<p>cart works!</p>
+<div class="container py-5">
+    <h2 class="mb-4">
+        <i class="bi bi-cart3 me-2"></i>
+        Carrito de compras
+    </h2>
+    @if(cartService.items().length === 0){
+        <div class="alert alert-info">
+            Tu carrito está vacío.
+        </div>
+        <a
+            routerLink="/catalog"
+            class="btn btn-primary">
+            Ir a comprar
+        </a>
+    } 
+    @else {
+        <div class="row">
+            <div class="col-lg-8">
+                @for(item of cartService.items(); track item.product.id){
+                    <app-cart-item 
+                        [item]="item">
+                    </app-cart-item>
+                }
+            </div>
+            <div class="col-lg-4">
+                <app-cart-summary />
+            </div>
+        </div>
+    }
+</div>

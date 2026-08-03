@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterLink} from '@angular/router';
 
+import { CartService } from '../../shared/services/cart.service';
+
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink],
@@ -8,5 +10,5 @@ import { RouterLink} from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-
+  constructor(public cartService: CartService) {}
 }
