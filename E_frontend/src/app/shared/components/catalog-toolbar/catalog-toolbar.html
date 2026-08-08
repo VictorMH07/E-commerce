@@ -1,0 +1,33 @@
+<div class="row g-3 mb-4">
+    <div class="col-md-6">
+        <input class="form-contro" type="text" placeholder="Buscar productos..." (input)="onSearch($event)">
+    </div>
+    <div class="col-md-3">
+        <select class="form-select" (change)="onCategoryChange($event)">
+            @for (category of productService.categories(); track category) {
+                <option [value]="category">
+                    {{ category }}
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select class="form-select" (change)="onSortChange($event)">
+            <option value="defaul">
+                Ordenado por
+            </option>
+            <option value="price-asc">
+                Precio: menor a mayor
+            </option>
+            <option value="price-desc">
+                Precio: mayor a menor
+            </option>
+            <option value="rating">
+                Mejor calificación
+            </option>
+            <option value="name">
+                Nombre (A-Z)
+            </option>
+        </select>
+    </div>
+</div>

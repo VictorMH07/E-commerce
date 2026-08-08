@@ -46,5 +46,16 @@ export const PRODUCTS: Product[] = [
     rating: 4.6,
     category: 'Tecnología',
     stock: 15
+  },
+
+  {
+    id: 5,
+    name: 'Sofá Moderno',
+    description: 'Sofá de trs puestos',
+    image: 'images/products/sofá.jpg',
+    price: 1800000,
+    rating: 4.5,
+    category: 'Hogar',
+    stock: 10
   }
 ];
