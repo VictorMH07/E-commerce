@@ -1,59 +1,106 @@
-@if(product){
 <div class="container py-5">
-    <div class="mb-4">
-        <a routerLink="/" class="btn-outline-secondary">
-            <i class="bi bi-arrow-left me-2"></i>
-            Volver al catálogo
-        </a>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <img
-                [src]="product.image"
-                [alt]="product.name"
-                class="img-fluid rounded shadow">
+    @if (product) {
+        <div class="row g-5 align-items-center">
+
+            <!-- Imagen del producto -->
+            <div class="col-lg-6">
+                <div class="product-image-container">
+                    <img [src]="product.image" [alt]="product.name" class="img-fluid product-image">
+                </div>
+            </div>
+
+            <!-- Información del producto -->
+            <div class="col-lg-6">
+                <span class="badge bg-secondary mb-3">
+                    {{ product.category }}
+                </span>
+                <h1 class="display-5 fw-bold mb-3">
+                    {{ product.name }}
+                </h1>
+
+                <!-- Rating -->
+                <div class="rating mb-3">
+                    <span class="text-warning">
+                        ⭐ {{ product.rating }}
+                    </span>
+                </div>
+
+                <!-- Precio -->
+                <div class="mb-4">
+                    @if (product.oldPrice) {
+                        <p class="old-price mb-1">
+                            {{ product.oldPrice | currency:'COP':'symbol':'1.0-0' }}
+                       </p>
+                    }
+                    <h2 class="price mb-0">
+                        {{ product.price | currency:'COP':'symbol':'1.0-0' }}
+                    </h2>
+                </div>
+
+                <!-- Descripción -->
+                <div class="mb-4">
+                    <h5 class="fw-bold">
+                        Descripción
+                    </h5>
+                    <p class="text-muted">
+                        {{ product.description }}
+                    </p>
+                </div>
+
+                <!-- Stock -->
+                <div class="mb-4">
+                    @if (product.stock > 0) {
+                        <span class="text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                            Disponible
+                        </span>
+                        <span class="text-muted ms-2">
+                            {{ product.stock }} unidades disponibles
+                        </span>
+                    } 
+                    @else {
+                        <span class="text-danger">
+                            <i class="bi bi-x-circle-fill"></i>
+                            Producto agotado
+                        </span>
+                    }
+                </div>
+
+                @if (product.stock > 0){
+                    <div class="mb-4">
+                        <h6 class="fw-bold">
+                            Cantidad
+                        </h6>
+                        <div class="d-flex align-items-center gap-2">
+                            <button class="btn bnt-outline-secondary" (click)="decreaseQuantity()">
+                                <i class="bi bi-dash"></i>
+                            </button>
+                            <span class="quantity">
+                                {{ quantity }}
+                            </span>
+                            <button class="btn btn-outline-secondary" (click)="increaseQuantity()">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-lg w-100 mb-3" (click)="addToCart()">
+                        <i class="bi bi-cart-plus me-2"></i>
+                        Agregar al carrito
+                    </button>
+                }
+                
+                <!-- Botón volver -->
+                <a routerLink="/catalog" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Volver al catálogo
+                </a>
+            </div>
         </div>
-
-        <div class="col-md-6">
-            <h2 class="fw-bold">
-                {{ product.name }}
-            </h2>
-
-            <p class="text-warning fs-5">
-                ⭐ {{ product.rating }}
-            </p>
-
-            @if(product.oldPrice){
-                <p class="old-price">
-                    {{ product.oldPrice | currency:'COP':'symbol':'1.0-0' }}
-                </p>
-            }
-
-            <h3 class="price">
-                {{ product.price | currency:'COP':'symbol':'1.0-0' }}
-            </h3>
-
-            <p class="mt-4">
-                {{ product.description }}
-            </p>
-
-            <p>
-                <strong>Stock:</strong>
-                {{ product.stock }}
-            </p>
-
-            <button class="btn btn-primary btn-lg">
-                <i class="bi bi-cart-plus-fill me-2"></i>
-                Agregar al carrito
-            </button>
+    } 
+    @else {
+        <div class="alert alert-warning text-center">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            Producto no encontrado.
         </div>
-    </div>
+    }
 </div>
-
-}@else{
-    <div class="container py-5 text-center">
-        <h2>
-            Producto no encontrado
-        </h2>
-    </div>
-}

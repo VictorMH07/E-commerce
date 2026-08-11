@@ -10,6 +10,13 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './cart-summary.html',
   styleUrl: './cart-summary.css',
 })
+
 export class CartSummary {
-   constructor(public cartService: CartService){}
+  readonly shipping = 15000;
+
+  constructor(public cartService: CartService){}
+
+  get total(): number{
+    return this.cartService.totalPrice() + this.shipping;
+  }
 }

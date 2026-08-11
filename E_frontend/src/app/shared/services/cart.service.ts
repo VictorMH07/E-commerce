@@ -27,7 +27,7 @@ export class CartService {
   }
 
   increaseQuantity(productId: number): void {
-    this._items.update(items => items.map(item => item.product.id === productId ? {...item, quantity: item.quantity + 1}: item));
+    this._items.update(items => items.map(item => item.product.id === productId ? {...item, quantity: Math.min(item.quantity + 1, item.product.stock)}: item));
   }
 
   decreaseQuantity(productId: number): void {

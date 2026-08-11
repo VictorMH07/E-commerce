@@ -51,7 +51,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 5,
     name: 'Sofá Moderno',
-    description: 'Sofá de trs puestos',
+    description: 'Sofá de tres puestos',
     image: 'images/products/sofá.jpg',
     price: 1800000,
     rating: 4.5,
