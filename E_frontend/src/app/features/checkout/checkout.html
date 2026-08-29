@@ -1,1 +1,342 @@
-<p>checkout works!</p>
+<div class="container py-5">
+    <div class="mb-4">
+        <h1 class="fw-bold">
+            Finalizar compra
+        </h1>
+        <p class="text-muted">
+            Completa tus datos para realizar el pedido.
+        </p>
+    </div>
+
+    
+    @if (orderConfirmed) {
+        <div class="confirmation-container text-center py-5">
+            <!-- Ícono de confirmación -->
+            <div class="mb-4">
+                <i class="bi bi-check-circle-fill text-success confirmation-icon"></i>
+            </div>
+            <!-- Mensaje -->
+            <h1 class="fw-bold">
+                ¡Pedido realizado correctamente!
+            </h1>
+            <p class="text-muted mb-4">
+                Gracias por tu compra, {{ orderData.customer.name }}.
+            </p>
+            <div class="order-number">
+                <i class="bi bi-receipt me-2"></i>
+                <strong>Pedido:</strong> {{ orderNumber }}
+            </div>
+            <div class="order-info">
+                <div>
+                    <i class="bi bi-calendar3 me-2"></i>
+                    <strong>Fecha:</strong>
+                    {{ orderDate | date:'dd/MM/yyyy HH:mm' }}
+                </div>
+                <div>
+                    <i class="bi bi-box-seam me-2"></i>
+                    <strong>Estado:</strong>
+                    {{ orderStatus }}
+                </div>
+            </div>
+            <!-- Resumen del pedido -->
+            <div class="card shadow-sm border-0 mx-auto confirmation-card text-start">
+                <div class="card-body p-4">
+                    <h4 class="fw-bold mb-4 text-center">
+                        <i class="bi bi-receipt me-2"></i>
+                        Resumen del pedido
+                    </h4>
+                    <!-- Productos -->
+                    <h6 class="fw-bold mb-3">
+                        Productos
+                    </h6>
+                    @for (item of orderData.items; track item.product.id) {
+                        <div class="checkout-item">
+                            <div>
+                                <h6 class="mb-1">
+                                    {{ item.product.name }}
+                                </h6>
+                                <small class="text-muted">
+                                    Cantidad: {{ item.quantity }}
+                                </small>
+                            </div>
+                            <span class="fw-semibold">
+                                {{ (item.product.price * item.quantity) | currency:'COP':'symbol':'1.0-0' }}
+                            </span>
+                        </div>
+                    }
+
+                    <hr>
+
+                    <!-- Subtotal -->
+                    <div class="summary-row">
+                        <span>
+                            Subtotal
+                        </span>
+                        <span>
+                            {{ orderData.subtotal | currency:'COP':'symbol':'1.0-0' }}
+                        </span>
+                    </div>
+                    <!-- Envío -->
+                    <div class="summary-row">
+                        <span>
+                            Envío
+                        </span>
+                        <span>
+                            {{ orderData.shipping | currency:'COP':'symbol':'1.0-0' }}
+                        </span>
+                    </div>
+
+                    <hr>
+
+                    <!-- Total -->
+                    <div class="summary-row total">
+                        <span>
+                            Total
+                        </span>
+                        <span>
+                            {{ orderData.total | currency:'COP':'symbol':'1.0-0' }}
+                        </span>
+                    </div>
+
+                    <hr>
+
+                    <!-- Datos del cliente -->
+                    <h6 class="fw-bold mb-3">
+                        Datos de entrega
+                    </h6>
+                    <div class="customer-data">
+                        <div>
+                            <i class="bi bi-person me-2"></i>
+                            <strong>Cliente:</strong>
+                            {{ orderData.customer.name }}
+                        </div>
+                        <div>
+                            <i class="bi bi-envelope me-2"></i>
+                            <strong>Correo:</strong>
+                            {{ orderData.customer.email }}
+                        </div>
+                        <div>
+                            <i class="bi bi-telephone me-2"></i>
+                            <strong>Teléfono:</strong>
+                            {{ orderData.customer.phone }}
+                        </div>
+                        <div>
+                            <i class="bi bi-geo-alt me-2"></i>
+                            <strong>Dirección:</strong>
+                            {{ orderData.customer.address }}
+                        </div>
+                        <div>
+                            <i class="bi bi-building me-2"></i>
+                            <strong>Ciudad:</strong>
+                            {{ getCityName(orderData.customer.city) }}
+                        </div>
+                        <div>
+                            <i class="bi bi-credit-card me-2"></i>
+                            <strong>Método de pago:</strong>
+                            {{ getPaymentMethodName(orderData.customer.payment) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Volver al catálogo -->
+            <a routerLink="/catalog" class="btn btn-primary btn-lg mt-4">
+                <i class="bi bi-shop me-2"></i>
+                Volver al catálogo
+            </a>
+        </div>
+    }
+    @else if (cartService.items().length === 0) {
+        <div class="alert alert-info">
+            <i class="bi bi-cart3 me-2"></i>
+            Tu carrito está vacio
+        </div>
+        <a routerLink="/catalog" class="btn btn-primary">
+            <i class="bi bi-shop me-2"></i>
+            Volver al catálogo
+        </a>
+    }
+    @else {
+        <div class="row g-4">
+            <!-- ============================= -->
+            <!-- DATOS DEL CLIENTE -->
+            <!-- ============================= -->
+
+            <div class="col-lg-7">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <form id="checkoutForm" [formGroup]="checkoutForm" (ngSubmit)="submitOrder()">
+                            <h4 class="fw-bold mb-4">
+                                <i class="bi bi-person me-2"></i>
+                                Datos del cliente
+                            </h4>
+
+                            <!-- Nombre -->
+                            <div class="mb-3">
+                                <label for="name" class="form-label">
+                                    Nombre completo
+                                </label>
+                                <input id="name" type="text" class="form-control" placeholder="Ingresa tu nombre" formControlName="name">
+                            </div>
+
+                            <!-- Correo -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">
+                                    Correo electronico
+                                </label>
+                                <input id="email" type="text" class="form-control" placeholder="ejemplo@correo.com" formControlName="email">
+                            </div>
+
+                            <!-- Teléfono -->
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">
+                                    Teléfono
+                                </label>
+                                <input id="phone" type="tel" class="form-control" placeholder="300 000 0000" formControlName="phone">
+                            </div>
+
+                            <!-- Dirección -->
+                            <div class="mb-3">
+                                <label for="address" class="form-label">
+                                    Dirección
+                                </label>
+                                <input id="address" type="text" class="form-control" placeholder="Calle, carrera, numero" formControlName="address">
+                            </div>
+
+                            <!-- Ciudad -->
+                            <div class="mb-4">
+                                <label for="city" class="form-label">
+                                    Ciudad
+                                </label>
+                                <select id="city" class="form-select" formControlName="city">
+                                    <option value="">
+                                        Selecciona una ciudad
+                                    </option>
+                                    <option value="ipiales">
+                                        Ipiales
+                                    </option>
+                                    <option value="pasto">
+                                        Pasto
+                                    </option>
+                                    <option value="bogota">
+                                        Bogotá
+                                    </option>
+                                    <option value="cali">
+                                        Cali
+                                    </option>
+                                    <option value="medellin">
+                                        Medellín
+                                    </option>
+                                </select>
+                            </div>
+
+                            <!-- Método de pago -->
+                            <h4 class="fw-bold mb-3">
+                                <i class="bi bi-credit-card me-2"></i>
+                                Método de pago
+                            </h4>
+                            <div class="payment-methods">
+                                <div class="form-check payment-option">
+                                    <input class="form-check-input" type="radio" name="payment" id="card" value="card" formControlName="payment">
+                                    <label class="form-check-label" for="card">
+                                        <i class="bi bi-credit-card me-2"></i>
+                                        Tarjeta de crédito o débito
+                                    </label>
+                                </div>
+                                <div class="form-check payment-option">
+                                    <input class="form-check-input" type="radio" name="payment" id="pse" value="pse" formControlName="payment">
+                                    <label class="form-check-label" for="pse">
+                                        <i class="bi bi-bank me-2"></i>
+                                        PSE
+                                    </label>
+                                </div>
+                                <div class="form-check payment-option">
+                                    <input class="form-check-input" type="radio" name="payment" id="cash" value="cash" formControlName="payment">
+                                    <label class="form-check-label" for="cash">
+                                        <i class="bi bi-cash-stack me-2"></i>
+                                        Pago contraentrega
+                                    </label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================================== -->
+            <!-- RESUMEN DEL PEDIDO-->
+            <!-- ================================== -->
+
+            <div class="col-lg-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h4 class="card-body p-4">
+                            Resumen del pedido
+                        </h4>
+
+                        <!-- Productos -->
+                        @for (item of cartService.items(); track item.product.id) {
+                            <div class="checkout-item">
+                                <div>
+                                    <h6 class="mb-1">
+                                        {{ item.product.name }}
+                                    </h6>
+                                    <small class="text-muted">
+                                        Cantidad: {{ item.quantity }}
+                                    </small>
+                                </div>
+                                <span class="fw-semibold">
+                                    {{ (item.product.price * item.quantity) | currency:'COP':'symbol':'1.0-0' }}
+                                </span>
+                            </div>
+                        }
+
+                        <hr>
+
+                        <!-- Subtotal -->
+                        <div class="summary-row">
+                            <span>
+                                Subtotal
+                            </span>
+                            <span>
+                                {{ cartService.totalPrice() | currency:'COP':'symbol':'1.0-0' }}
+                            </span>
+                        </div>
+
+                        <!-- Envio -->
+                        <div class="summary-row">
+                            <span>
+                                Envio
+                            </span>
+                            <span>
+                                {{ shipping | currency:'COP':'symbol':'1.0-0' }}
+                            </span>
+                        </div>
+
+                        <hr>
+
+                        <!-- Total -->
+                        <div class="summary-row total">
+                            <span>
+                                Total
+                            </span>
+                            <span>
+                                {{ total | currency:'COP':'symbol':'1.0-0' }}
+                            </span>
+                        </div>
+
+                        <!-- Confirmar -->
+                        <button type="submit" form="checkoutForm" class="btn btn-primary btn-lg w-100 mt-4">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Confirmar pedido
+                        </button>
+                        <a routerLink="/cart" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="bi bi-arrow-left me-2"></i>
+                            Volver al carrito
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
