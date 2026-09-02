@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { CartService } from '../../shared/services/cart.service';
+import { OrderService } from '../../shared/services/order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -32,7 +33,7 @@ export class Checkout {
     payment: ['', Validators.required],
   });
 
-  constructor(public cartService: CartService) {}
+  constructor(public cartService: CartService, private orderService: OrderService) {}
 
   get total(): number {
     return this.cartService.totalPrice() + this.shipping;
@@ -49,12 +50,17 @@ export class Checkout {
     this.orderDate = new Date();
 
     this.orderData = {
+      orderNumber: this.orderNumber,
+      date: this.orderDate,
+      status: this.orderStatus,
       customer: this.checkoutForm.value,
       items: this.cartService.items(),
       subtotal: this.cartService.totalPrice(),
       shipping: this.shipping,
       total: this.total
     };
+
+    this.orderService.addOrder(this.orderData);
 
     console.log('Pedido válido');
     console.log(this.orderData);

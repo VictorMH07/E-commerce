@@ -7,6 +7,7 @@ import { Checkout } from './features/checkout/checkout';
 import { ProductDetail } from './features/product-detail/product-detail';
 import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
+import { Orders } from './shared/components/orders/orders';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,10 @@ export const routes: Routes = [
     {
         path: 'register',
         component: Register
+    },
+    {
+        path: 'orders',
+        component: Orders
     },
     {
         path: '**',
