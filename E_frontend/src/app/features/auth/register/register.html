@@ -1,1 +1,74 @@
-<p>register works!</p>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">
+                        Crear cuenta
+                    </h2>
+                    <p class="text-center text-muted mb-4">
+                        Registrate para comenzar a comprar
+                    </p>
+                    @if (errorMessage) {
+                        <div class="alert alert-danger">
+                            {{ errorMessage}}
+                        </div>
+                    }
+                    <form [formGroup]="registerForm" (ngSubmit)="register()">
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">
+                                Nombre completo
+                            </label>
+                            <input type="text" id="name" class="form-control" formControlName="name" placeholder="Ingresa tu nombre">
+                            @if (registerForm.controls.name.touched && registerForm.controls.name.invalid) {
+                                <div class="text-danger small mt-1">
+                                    El nombre es obligatorio.
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Correo -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                Correo electrónico
+                            </label>
+                            <input type="email" id="email" class="form-control" formControlName="email" placeholder="ejemplo@correo.com">
+                            @if (registerForm.controls.email.touched && registerForm.controls.email.invalid) {
+                                <div class="text-danger small mt-1">
+                                    Ingresar un correo electrónico válido.
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Contrseña -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label">
+                                Contraseña
+                            </label>
+                            <input type="password" id="password" class="form-control" formControlName="password" placeholder="Minimo 6 caracteres">
+                            @if (registerForm.controls.password.touched && registerForm.controls.password.invalid) {
+                                <div class="text-danger small mt-1">
+                                    La contraseña debe tener minimo 6 caracteres.
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Botón -->
+                        <button type="submit" class="btn btn-primary w-100">
+                            Crear cuenta
+                        </button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <span class="text-muted">
+                            ¿Ya tienes una cuenta?
+                        </span>
+                        <a routerLink="/login" class="text-decoration-none ms-1">
+                            Iniciar sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

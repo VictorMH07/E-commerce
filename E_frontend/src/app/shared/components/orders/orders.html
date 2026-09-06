@@ -1,13 +1,13 @@
 <div class="container py-4">
     <h2 class="mb-4">Mis pedidos</h2>
 
-    @if (orderService.orders().length === 0) {
+    @if (myOrders().length === 0) {
         <div class="alert alert-info">
             No tienes pedidos realizados todavia.
         </div>
     }
     @else {
-        @for (order of orderService.orders(); track order.orderNumber) {
+        @for (order of myOrders(); track order.orderNumber) {
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <!-- Encabezado -->
@@ -29,7 +29,7 @@
 
                     <!-- Información del pedido -->
                     <div class="row">
-                        <div class="clo-md-6">
+                        <div class="col-md-6">
                             <h6>Información del cliente</h6>
                             <p class="mb-1">
                                 <strong>Nombre:</strong> {{ order.customer.name }}

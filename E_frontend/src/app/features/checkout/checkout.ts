@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 
 import { CartService } from '../../shared/services/cart.service';
 import { OrderService } from '../../shared/services/order.service';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-checkout',
@@ -33,7 +34,16 @@ export class Checkout {
     payment: ['', Validators.required],
   });
 
-  constructor(public cartService: CartService, private orderService: OrderService) {}
+  constructor(public cartService: CartService, private orderService: OrderService, public authService: AuthService) {
+    const currentUser = this.authService.currentUser();
+
+    if (currentUser) {
+      this.checkoutForm.patchValue({
+        name: currentUser.name,
+        email: currentUser.email
+      });
+    }
+  }
 
   get total(): number {
     return this.cartService.totalPrice() + this.shipping;

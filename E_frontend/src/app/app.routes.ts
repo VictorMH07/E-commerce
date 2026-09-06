@@ -9,6 +9,7 @@ import { Login } from './features/auth/login/login';
 import { Register } from './features/auth/register/register';
 import { Orders } from './shared/components/orders/orders';
 import { OrderDetail } from './features/order-detail/order-detail';
+import { authGuard } from './shared/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -41,11 +42,13 @@ export const routes: Routes = [
     },
     {
         path: 'orders',
-        component: Orders
+        component: Orders,
+        canActivate: [authGuard]
     },
     {
         path: 'orders/:orderNumber',
-        component: OrderDetail
+        component: OrderDetail,
+        canActivate: [authGuard]
     },
     {
         path: '**',
