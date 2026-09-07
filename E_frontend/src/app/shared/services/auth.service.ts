@@ -48,6 +48,18 @@ export class AuthService {
     localStorage.removeItem('currentUser');
   }
 
+  updateUser(updatedUser: User): void {
+    this._currentUser.set(updatedUser);
+
+    const users = this._users().map(user =>
+      user.id === updatedUser.id ? updatedUser : user
+    );
+
+    this._users.set(users);
+    this.saveUsers();
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+  }  
+
   private saveUsers(): void {
     localStorage.setItem('users', JSON.stringify(this._users()));
   }

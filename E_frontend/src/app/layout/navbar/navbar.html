@@ -41,9 +41,9 @@
 
         </a>
         @if (authService.isLoggedIn()) {
-          <span class="text-white">
+          <a routerLink="/profile" class="text-white text-decoration-none">
             Hola, {{ authService.currentUser()?.name }}
-          </span>
+          </a>
           <button type="button" class="btn btn-outline-light" (click)="logout()">
             Cerrar sesión
           </button>

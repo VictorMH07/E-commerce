@@ -10,6 +10,7 @@ import { Register } from './features/auth/register/register';
 import { Orders } from './shared/components/orders/orders';
 import { OrderDetail } from './features/order-detail/order-detail';
 import { authGuard } from './shared/guards/auth-guard';
+import { Profile } from './features/profile/profile';
 
 export const routes: Routes = [
     {
@@ -48,6 +49,11 @@ export const routes: Routes = [
     {
         path: 'orders/:orderNumber',
         component: OrderDetail,
+        canActivate: [authGuard]
+    },
+    {
+        path: 'profile',
+        component: Profile,
         canActivate: [authGuard]
     },
     {
