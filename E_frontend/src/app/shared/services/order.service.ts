@@ -1,17 +1,22 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, effect, inject, signal } from '@angular/core';
 
 import { Order } from '../interfaces/order.interface';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class OrderService {
+  private readonly authService = inject(AuthService);
   private readonly _orders = signal<Order[]>([]);
   readonly orders = this._orders.asReadonly();
 
   constructor() {
-    this.loadOrders();
+    effect(() => {
+      const user = this.authService.currentUser();
+      this.loadOrders(user?.id);
+    })
   }
 
   addOrder(order: Order): void {
@@ -19,14 +24,22 @@ export class OrderService {
     this.saveOrders();
   }
 
-  private saveOrders(): void {
-    localStorage.setItem('orders', JSON.stringify(this._orders()));
+  private getStorageKey(userId?: string): string {
+    return userId? `orders_${userId}`: 'orders_guest';
   }
 
-  private loadOrders(): void {
-    const storedOrders = localStorage.getItem('orders');
+  private saveOrders(): void {
+    const userId = this.authService.currentUser()?.id;
+    localStorage.setItem(this.getStorageKey(userId), JSON.stringify(this._orders()));
+  }
+
+  private loadOrders(userId?: string): void {
+    const storedOrders = localStorage.getItem(this.getStorageKey(userId));
     if (storedOrders) {
       this._orders.set(JSON.parse(storedOrders));
+    }
+    else {
+      this._orders.set([]);
     }
   }
 }
