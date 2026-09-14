@@ -1,9 +1,10 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { Product } from '../../interfaces/product.interface';
 import { CartService } from '../../services/cart.service';
+import { FavoriteService } from '../../services/favorite.service';
 
 @Component({
   selector: 'app-product-card',
@@ -13,8 +14,19 @@ import { CartService } from '../../services/cart.service';
 })
 export class ProductCard {
   product = input.required<Product>();
-  constructor(private cart: CartService){}
-  addToCart(): void{
-    this.cart.addToCart(this.product())
+
+  private cart = inject(CartService);
+  public favoriteService = inject(FavoriteService);
+
+  addToCart(): void {
+    this.cart.addToCart(this.product());
+  }
+
+  toggleFavorite(): void {
+    this.favoriteService.toggleFavorite(this.product().id);
+  }
+
+  isFavorite(): boolean {
+    return this.favoriteService.isFavorite(this.product().id);
   }
 }

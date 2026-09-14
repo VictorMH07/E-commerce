@@ -11,6 +11,7 @@ import { Orders } from './shared/components/orders/orders';
 import { OrderDetail } from './features/order-detail/order-detail';
 import { authGuard } from './shared/guards/auth-guard';
 import { Profile } from './features/profile/profile';
+import { Favorites } from './features/favorites/favorites';
 
 export const routes: Routes = [
     {
@@ -28,6 +29,10 @@ export const routes: Routes = [
     {
         path: 'cart',
         component: Cart
+    },
+    {
+        path: 'favorites',
+        component: Favorites
     },
     {
         path: 'checkout',

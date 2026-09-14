@@ -3,6 +3,7 @@ import { RouterLink} from '@angular/router';
 
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
+import { FavoriteService } from '../../shared/services/favorite.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,7 +12,11 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrl: './navbar.css',
 })
 export class Navbar {
-  constructor(public cartService: CartService, public authService: AuthService) {}
+  constructor(
+    public cartService: CartService,
+    public authService: AuthService,
+    public favoriteService: FavoriteService
+  ) {}
 
   logout(): void {
     this.authService.logout()
