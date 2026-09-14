@@ -32,11 +32,13 @@ export const routes: Routes = [
     },
     {
         path: 'favorites',
-        component: Favorites
+        component: Favorites,
+        canActivate: [authGuard]
     },
     {
         path: 'checkout',
-        component: Checkout
+        component: Checkout,
+        canActivate: [authGuard]
     },
     {
         path: 'login',

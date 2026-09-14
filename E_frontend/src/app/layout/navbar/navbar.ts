@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink} from '@angular/router';
+import { Router, RouterLink} from '@angular/router';
 
 import { CartService } from '../../shared/services/cart.service';
 import { AuthService } from '../../shared/services/auth.service';
@@ -15,10 +15,12 @@ export class Navbar {
   constructor(
     public cartService: CartService,
     public authService: AuthService,
-    public favoriteService: FavoriteService
+    public favoriteService: FavoriteService,
+    private router: Router
   ) {}
 
   logout(): void {
     this.authService.logout()
+    this.router.navigate(['/login']);
   }
 }
