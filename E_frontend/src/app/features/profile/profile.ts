@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from "@angular/router";
 
 import { AuthService } from '../../shared/services/auth.service';
-import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -12,13 +12,23 @@ import { RouterLink } from "@angular/router";
 })
 export class Profile {
   profileForm;
-  successMessage = '';
+  passwordForm;
 
-  constructor(public authService: AuthService, private formBilder: FormBuilder) {
+  successMessage = '';
+  passwordSuccessMessage = '';
+  passwordErrorMessage = '';
+
+  constructor(public authService: AuthService, private formBuilder: FormBuilder) {
     const currentUser = this.authService.currentUser();
-    this.profileForm = this.formBilder.nonNullable.group({
+    this.profileForm = this.formBuilder.nonNullable.group({
       name: [currentUser?.name ?? '', Validators.required],
     });
+
+    this.passwordForm = this.formBuilder.nonNullable.group({
+      currentPassword: ['', Validators.required],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    });    
   }
 
   updateProfile(): void {
@@ -34,15 +44,44 @@ export class Profile {
     }
 
     const { name } = this.profileForm.getRawValue();
-    const updatedUser = {
-      ...currentUser,
-      name,
-    };
+    const updatedUser = {...currentUser, name,};
 
     this.authService.updateUser(updatedUser);
     this.successMessage = 'Perfil actualizado correctamente';
+  }
 
-    console.log('Perfil actualizado');
-    console.log(updatedUser);
+  changePassword(): void {
+    this.passwordSuccessMessage = '';
+    this.passwordErrorMessage = '';
+
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      return;
+    }
+
+    const {
+      currentPassword,
+      newPassword,
+      confirmPassword 
+    } = this.passwordForm.getRawValue();
+
+    const currentUser = this.authService.currentUser();
+    if (!currentUser) {
+      return;
+    }
+    if (currentPassword !== currentUser?.password) {
+      this.passwordErrorMessage = 'La contraseña actual es incorrecta';
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      this.passwordErrorMessage = 'La nueva contraseña no coincide';
+      return;
+    }
+
+    const updateUser = {...currentUser, password: newPassword};
+
+    this.authService.updateUser(updateUser);
+    this.passwordForm.reset();
+    this.passwordSuccessMessage = 'Contraseña actualizada correctamente';
   }
 }
