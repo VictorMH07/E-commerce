@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 import { CartService } from '../../shared/services/cart.service';
@@ -8,7 +7,7 @@ import { CartSummary } from '../../shared/components/cart-summary/cart-summary';
 
 @Component({
   selector: 'app-cart',
-  imports: [CurrencyPipe, RouterLink, CartItem, CartSummary],
+  imports: [RouterLink, CartItem, CartSummary],
   templateUrl: './cart.html',
   styleUrl: './cart.css',
 })

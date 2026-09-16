@@ -1,7 +1,5 @@
 <div class="cart-item shadow-sm">
-    <img
-        [src]="item().product.image"
-        [alt]="item().product.name">
+    <img [src]="item().product.image" [alt]="item().product.name">
     <div class="cart-info">
         <h4 class="mb-2">
             {{ item().product.name }}
@@ -13,26 +11,27 @@
             ⭐ {{ item().product.rating }}
         </p>
         <div class="quantity">
-            <button
-                class="btn btn-outline-secondary"
-                (click)="decrease()">
+            <button class="btn btn-outline-secondary" (click)="decrease()">
                 <i class="bi bi-dash"></i>
             </button>
             <span>{{ item().quantity }}</span>
-            <button
-                class="btn btn-outline-secondary"
-                (click)="increase()">
+            <button class="btn btn-outline-secondary" (click)="increase()" [disabled]="item().quantity >= item().product.stock" [title]="item().quantity >= item().product.stock ? 'Stock máximo alcanzado' : 'Aumentar cantidad'">
                 <i class="bi bi-plus"></i>
             </button>
         </div>
+
+        @if (item().quantity >= item().product.stock) {
+            <small class="text-warning d-block mt-2">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Has alcanzado el stock disponible.
+            </small>
+        }
     </div>
     <div class="cart-actions">
         <h5>
             {{ (item().product.price * item().quantity) | currency:'COP':'symbol':'1.0-0' }}
         </h5>
-        <button
-            class="btn btn-outline-danger"
-            (click)="remove()">
+        <button class="btn btn-outline-danger" (click)="remove()">
             <i class="bi bi-trash"></i>
         </button>
     </div>
