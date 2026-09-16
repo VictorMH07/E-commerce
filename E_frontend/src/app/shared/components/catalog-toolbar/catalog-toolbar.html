@@ -1,6 +1,6 @@
 <div class="row g-3 mb-4">
     <div class="col-md-6">
-        <input class="form-contro" type="text" placeholder="Buscar productos..." (input)="onSearch($event)">
+        <input class="form-control" type="text" placeholder="Buscar productos..." [value]="productService.searchTerm()" (input)="onSearch($event)">
     </div>
     <div class="col-md-3">
         <select class="form-select" (change)="onCategoryChange($event)">
