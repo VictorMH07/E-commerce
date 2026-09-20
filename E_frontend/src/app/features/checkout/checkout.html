@@ -1,14 +1,4 @@
 <div class="container py-5">
-    <div class="mb-4">
-        <h1 class="fw-bold">
-            Finalizar compra
-        </h1>
-        <p class="text-muted">
-            Completa tus datos para realizar el pedido.
-        </p>
-    </div>
-
-    
     @if (orderConfirmed) {
         <div class="confirmation-container text-center py-5">
             <!-- Ícono de confirmación -->
@@ -41,7 +31,7 @@
             <!-- Resumen del pedido -->
             <div class="card shadow-sm border-0 mx-auto confirmation-card text-start">
                 <div class="card-body p-4">
-                    <h4 class="fw-bold mb-4 text-center">
+                    <h4 class="fw-bold mb-4">
                         <i class="bi bi-receipt me-2"></i>
                         Resumen del pedido
                     </h4>
@@ -157,6 +147,14 @@
         </a>
     }
     @else {
+        <div class="mb-4">
+            <h1 class="fw-bold">
+                Finalizar compra
+            </h1>
+            <p class="text-muted">
+                Completa tus datos para realizar el pedido.
+            </p>
+        </div>
         <div class="row g-4">
             <!-- ============================= -->
             <!-- DATOS DEL CLIENTE -->
@@ -193,6 +191,11 @@
                                     Teléfono
                                 </label>
                                 <input id="phone" type="tel" class="form-control" placeholder="300 000 0000" formControlName="phone">
+                                @if (checkoutForm.controls.phone.touched && checkoutForm.controls.phone.invalid) {
+                                    <small class="text-danger">
+                                        El teléfono es obligatorio.
+                                    </small>
+                                }
                             </div>
 
                             <!-- Dirección -->
@@ -201,6 +204,11 @@
                                     Dirección
                                 </label>
                                 <input id="address" type="text" class="form-control" placeholder="Calle, carrera, numero" formControlName="address">
+                                @if (checkoutForm.controls.address.touched && checkoutForm.controls.address.invalid) {
+                                    <small class="text-danger">
+                                        La dirección es obligatoria.
+                                    </small>
+                                }
                             </div>
 
                             <!-- Ciudad -->
@@ -228,6 +236,11 @@
                                         Medellín
                                     </option>
                                 </select>
+                                @if (checkoutForm.controls.city.touched && checkoutForm.controls.city.invalid) {
+                                    <small class="text-danger">
+                                        Selecciona una ciudad.
+                                    </small>
+                                }
                             </div>
 
                             <!-- Método de pago -->
@@ -258,6 +271,11 @@
                                     </label>
                                 </div>
                             </div>
+                            @if (checkoutForm.controls.payment.touched && checkoutForm.controls.payment.invalid) {
+                                <small class="text-danger d-block mt-2">
+                                    Selecciona un método de pago.
+                                </small>
+                            }
                         </form>
                     </div>
                 </div>

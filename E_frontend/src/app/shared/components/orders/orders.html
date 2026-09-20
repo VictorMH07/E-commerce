@@ -47,10 +47,10 @@
                                 <strong>Dirección:</strong> {{ order.customer.address }}
                             </p>
                             <p class="mb-1">
-                                <strong>Ciudad:</strong> {{ order.customer.city }}
+                                <strong>Ciudad:</strong> {{ getCityName(order.customer.city) }}
                             </p>
                             <p class="mb-1">
-                                <strong>Pago:</strong> {{ order.customer.payment }}
+                                <strong>Pago:</strong> {{ getPaymentMethodName(order.customer.payment) }}
                             </p>
                         </div>
                     </div>

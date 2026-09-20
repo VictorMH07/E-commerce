@@ -25,4 +25,24 @@ export class Orders {
       order => order.customer.email === currentUser.email
     );
   });
+
+  getCityName(city: string): string {
+    switch (city) {
+      case 'ipiales': return 'Ipiales';
+      case 'pasto': return 'Pasto';
+      case 'bogota': return 'Bogota';
+      case 'cali': return 'Cali';
+      case 'medellin': return 'Medellin';
+      default: return city
+    }
+  }
+
+  getPaymentMethodName(payment: string): string {
+    switch (payment) {
+      case 'card': return 'Tarjeta de crédito o débito';
+      case 'pse': return 'PSE';
+      case 'cash': return 'Pago contraentrega';
+      default: return payment
+    }
+  }
 }
