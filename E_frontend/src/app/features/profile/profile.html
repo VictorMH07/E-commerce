@@ -1,9 +1,11 @@
 <div class="container py-4">
     <h2 class="mb-4">Mi perfil</h2>
     @if (authService.currentUser(); as user) {
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title mb-4">
+        <div class="profile-card">
+            <!-- Información personal -->
+            <div class="profile section">
+                <h5 class="profile-section-title">
+                    <i class="bi bi-person-circle"></i>
                     Información personal
                 </h5>
                 <form [formGroup]="profileForm">
@@ -12,83 +14,109 @@
                             Nombre
                         </label>
                         <input id="name" type="text" class="form-control" formControlName="name">
+                        @if (profileForm.controls.name.invalid && profileForm.controls.name.touched) {
+                            <div class="text-danger small mt-1">
+                                El nombre es obligatorio.
+                            </div>
+                        }
                     </div>
-                    <div class="mb-3">
-                        <strong>Correo electrónico:</strong>
-                        <p class="mb-0">{{ user.email }}</p>
-                    </div>
-                    <div class="mb-3">
-                        <strong>ID de usuario:</strong>
-                        <p class="mb-0">{{ user.id }}</p>
+                    <div class="profile-info mb-3">
+                        <p>
+                            <strong>Correo electrónico:</strong><br>{{ user.email }}
+                        </p>
+                        <p>
+                            <strong>ID de usuario:</strong><br>{{ user.id }}
+                        </p>
                     </div>
                     @if (successMessage) {
-                        <div class="alert alert-success">
-                            <i class="bi bi-check-circle me-2"></i>
-                            {{ successMessage }}
+                        <div class="alert alert-succes">
+                            <i class="bi bi-check-circle me-2"></i>{{ successMessage }}
                         </div>
                     }
-                    <button type="button" class="btn btn-primary" (click)="updateProfile()">
-                        Guardar cambios
-                    </button>
-                    <a routerLink="/orders" class="btn btn-outline-primary ms-2">
-                        <i class="bi bi-box-seam me-2"></i>
-                        Mis pedidos
-                    </a>
-                </form>
-                <div class="card shadow-sm mt-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">
-                            Cambiar contraseña
-                        </h5>
-                        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
-                            <div class="mb-3">
-                                <label for="currentPassword" class="form-label">
-                                    Contraseña actual
-                                </label>
-                                <input id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
-                            </div>
-                            <div class="mb-3">
-                                <label for="newPassword" class="form-label">
-                                    Nueva contraseña
-                                </label>
-                                <input id="newPassword" type="password" class="form-control" formControlName="newPassword">
-                                <small class="text-muted">
-                                    La contraseña debe tener al menos 6 caracteres.
-                                </small>
-                            </div>
-                            <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">
-                                    Confirmar contraseña
-                                </label>
-                                <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
-                            </div>
 
-                            @if (passwordErrorMessage) {
-                                <div class="alert alert-danger">
-                                    <i class="bi bi-exclamation-circle me-2"></i>
-                                    {{ passwordErrorMessage }}
-                                </div>
-                            }
-
-                            @if (passwordSuccessMessage) {
-                                <div class="alert alert-success">
-                                    <i class="bi bi-check-circle me-2"></i>
-                                    {{ passwordSuccessMessage }}
-                                </div>
-                            }
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-key me-2"></i>
-                                Actualizar contraseña
-                            </button>
-                        </form>
+                    <div class="profile-action">
+                        <button type="button" class="btn btn-primary" (click)="updateProfile()">
+                            <i class="bi bi-check-lg me-2"></i>
+                            Guardar cambios
+                        </button>
+                        <a routerLink="/orders" class="btn btn-outline-primary">
+                            <i class="bi bi-box-seam me-2"></i>
+                            Mis pedidos
+                        </a>
                     </div>
-                </div>
+                </form>
+            </div>
+
+            <!-- Cambiar contraseña -->
+            <div class="profile-section">
+                <h5 class="profile-section-title">
+                    <i class="bi bi-shield-lock"></i>
+                    Cambiar contraseña
+                </h5>
+                <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+                    <div class="mb-3">
+                        <label for="currentPassword" class="form-label">
+                            Contraseña actual
+                        </label>
+                        <input id="currentPassword" type="password" class="form-control" formControlName="currentPassword">
+                        @if (passwordForm.controls.currentPassword.invalid && passwordForm.controls.currentPassword.touched) {
+                            <div class="text-danger small mt-1">
+                                La contraseña actual es oblígatoria.
+                            </div>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="newPassword" class="form-label">
+                            Nueva contraseña
+                        </label>
+                        <input id="newPassword" type="password" class="form-control" formControlName="newPassword">
+                        <div class="password-help text-muted mt-1">
+                            La contrseña debe tener al menos 6 caracteres.
+                        </div>
+                        @if (passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched) {
+                            <div class="text-danger small mt-1">
+                                La nueva contraseña debe tener al menos 6 caracteres.
+                            </div>
+                        }
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">
+                            Confirmar contraseña
+                        </label>
+                        <input id="confirmPassword" type="password" class="form-control" formControlName="confirmPassword">
+                        @if (passwordForm.controls.confirmPassword.invalid && passwordForm.controls.confirmPassword.touched) {
+                            <div class="text-danger small mt-1">
+                                Debe confirmar la nueva contraseña.
+                            </div>
+                        }
+                    </div>
+
+                    @if (passwordErrorMessage) {
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-circle me-2"></i>{{ passwordErrorMessage }}
+                        </div>
+                    }
+
+                    @if (passwordSuccessMessage) {
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle me-2"></i>{{ passwordSuccessMessage }}
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-key me-2"></i>
+                        Actualizar contraseña
+                    </button>
+                </form>
             </div>
         </div>
     }
     @else {
         <div class="alert alert-warning">
-            No hay un usuario conectado
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            No hay un usuario conectado.
         </div>
-    } 
+    }
 </div>

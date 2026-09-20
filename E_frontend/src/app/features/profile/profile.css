@@ -1,0 +1,49 @@
+.profile-card {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-section {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.profile-section + .profile-section {
+    margin-top: 1.5rem;
+}
+
+.profile-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.profile-section-title i {
+    font-size: 1.2rem;
+}
+
+.profile-info {
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.profile-info p {
+    margin-bottom: 0.75rem;
+}
+
+.profile-info p:last-child {
+    margin-bottom: 0;
+}
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.password-help {
+    font-size: 0.875rem;
+}
