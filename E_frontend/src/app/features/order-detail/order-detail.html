@@ -15,7 +15,7 @@
         <!-- Informacón del pedido -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
-                <h5 class="mb-3">Informacón del pedido</h5>
+                <h5 class="mb-3">Información del pedido</h5>
                 <p class="mb-1">
                     <strong>Número:</strong> {{ order.orderNumber}}
                 </p>
@@ -64,13 +64,13 @@
                     <strong>Teléfono:</strong> {{ order.customer.phone }}
                 </p>
                 <p class="mb-1">
-                    <strong>Dirección:</strong> {{ order.customer.addrress }}
+                    <strong>Dirección:</strong> {{ order.customer.address }}
                 </p>
                 <p class="mb-1">
-                    <strong>Ciudad:</strong> {{ order.customer.city }}
+                    <strong>Ciudad:</strong> {{ getCityName(order.customer.city) }}
                 </p>
                 <p class="mb-1">
-                    <strong>Forma de pago:</strong> {{ order.customer.payment }}
+                    <strong>Forma de pago:</strong> {{ getPaymentMethodName(order.customer.payment) }}
                 </p>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     </span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
-                    <span>Envio:</span>
+                    <span>Envío:</span>
                     <span>
                         {{ order.shipping | currency:'COP':'symbol':'1.0-0' }}
                     </span>
@@ -94,7 +94,7 @@
 
                 <hr>
 
-                <div class="d-flex justify-content-between fw.bold fs-5">
+                <div class="d-flex justify-content-between fw-bold fs-5">
                     <span>Total:</span>
                     <span>
                         {{ order.total | currency:'COP':'symbol':'1.0-0' }}
@@ -102,8 +102,9 @@
                 </div>
             </div>
         </div>
-        <a routerLink="/orders" class="btn btn-outline-secodary">
-            ⬅ Volver a mis pedidos
+        <a routerLink="/orders" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>
+            Volver a mis pedidos
         </a>
     }
     @else {
@@ -111,7 +112,8 @@
             No se encontró el pedido.
         </div>
         <a routerLink="/orders" class="btn btn-outline-secondary">
-            ⬅ Volver a mis pedidos
+            <i class="bi bi-arrow-left me-2"></i>
+            Volver a mis pedidos
         </a>
     }
 </div>

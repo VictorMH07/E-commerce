@@ -18,4 +18,24 @@ export class OrderDetail {
     const orderNumber = this.route.snapshot.paramMap.get('orderNumber');
     this.order = this.orderService.orders().find(order => order.orderNumber === orderNumber);
   }
+
+  getCityName(city: string): string {
+    switch (city) {
+      case 'ipiales': return 'Ipiales';
+      case 'pasto': return 'Pasto';
+      case 'bogota': return 'Bogota';
+      case 'cali': return 'Cali';
+      case 'medellin': return 'Medellin';
+      default: return city
+    }
+  }
+
+  getPaymentMethodName(payment: string): string {
+    switch (payment) {
+      case 'card': return 'Tarjeta de crédito o débito';
+      case 'pse': return 'PSE';
+      case 'cash': return 'Pago contraentrega';
+      default: return payment
+    }
+  }
 }
