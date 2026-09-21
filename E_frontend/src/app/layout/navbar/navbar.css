@@ -1,19 +1,75 @@
-.navbar-brand{
-    font-size:1.5rem;
+.navbar-brand {
+    font-size: 1.5rem;
+    white-space: nowrap;
 }
 
-.nav-link{
-    transition:.3s;
+.nav-link {
+    transition: color 0.3s;
+    white-space: nowrap;
 }
 
-.nav-link:hover{
-    color:#0dcaf0 !important;
+.nav-link:hover {
+    color: #0dcaf0 !important;
 }
 
-.bi-heart{
-    cursor:pointer;
+.navbar-search {
+    width: 32%;
+    min-width: 180px;
 }
 
-.bi-cart3{
-    cursor:pointer;
+.navbar-search .form-control {
+    min-width: 0;
+}
+
+.navbar-icon {
+    color: white;
+    text-decoration: none;
+    transition: transform 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+
+.navbar-icon:hover {
+    color: #0dcaf0;
+    transform: translateY(-1px);
+}
+
+.navbar-icon i {
+    cursor: pointer;
+}
+
+.navbar-user {
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.navbar-user:hover {
+    color: #0dcaf0;
+}
+
+.navbar-actions {
+    flex-shrink: 0;
+}
+
+@media (max-width: 1199px) {
+    .navbar-search {
+        width: 25%;
+    }
+
+    .navbar-actions {
+        gap: 0.75rem !important;
+    }
+}
+
+@media (max-width: 991px) {
+    .navbar-search {
+        width: 100%;
+        margin: 1rem 0;
+    }
+
+    .navbar-actions {
+        margin-top: 0.5rem;
+        flex-wrap: wrap;
+    }
 }

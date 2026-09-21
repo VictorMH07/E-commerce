@@ -26,11 +26,11 @@
           </a>
         </li>
       </ul>
-      <form class="d-flex mx-auto" style="width:40%;" (ngSubmit)="search()">
+      <form class="d-flex mx-auto navbar-search" (ngSubmit)="search()">
         <input class="form-control" type="search" placeholder="Buscar productos..." [(ngModel)]="searchTerm" name="search">
       </form>
-      <div class="d-flex align-items-center gap-3">
-        <a routerLink="/favorites" class="text-white position-relative" aria-label="Favoritos">
+      <div class="d-flex align-items-center gap-3 navbar-actions">
+        <a routerLink="/favorites" class="navbar-icon position-relative" aria-label="Favoritos">
           <i class="bi bi-heart fs-5"></i>
           @if (favoriteService.favorites().length > 0) {
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -38,7 +38,7 @@
             </span>
           }
         </a>
-        <a routerLink="/cart" class="text-white position-relative">
+        <a routerLink="/cart" class="navbar-icon position-relative" aria-label="Carrito">
           <i class="bi bi-cart3 fs-4"></i>
           @if (cartService.totalItems() > 0){
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -48,7 +48,7 @@
 
         </a>
         @if (authService.isLoggedIn()) {
-          <a routerLink="/profile" class="text-white text-decoration-none">
+          <a routerLink="/profile" class="navbar-user">
             Hola, {{ authService.currentUser()?.name }}
           </a>
           <button type="button" class="btn btn-outline-light" (click)="logout()">

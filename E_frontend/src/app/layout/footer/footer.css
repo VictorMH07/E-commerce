@@ -1,3 +1,26 @@
-footer{
-    width:100%;
+.footer-title {
+    font-size: 1.25rem;
+}
+
+.footer-description {
+    color: #adb5bd;
+}
+
+.footer-link {
+    color: #adb5bd;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #0dcaf0;
+}
+
+.footer-divider {
+    border-color: #495057;
+}
+
+.footer-copy {
+    color: #6c757d;
+    font-size: 0.875rem;
 }

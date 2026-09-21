@@ -1,12 +1,46 @@
 <footer class="bg-dark text-white mt-5">
-    <div class="container py-4 text-center">
-        <h5>NovaShop</h5>
-        <p>
-            Tu tienda virtual favorita.
-        </p>
+    <div class="container py-5">
+        <div class="row">
+            <!-- Información de NovaShop -->
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h5 class="footer-title fw-bold">
+                    <i class="bi bi-shop me-2"></i>
+                    NovaShop
+                </h5>
+                <p class="footer-description mb-0">
+                    Tu tienda virtual favorita.
+                </p>
+            </div>
 
-        <small>
-            © 2026 Todos los derechos reservados.
-        </small>
+            <!-- Enlaces rápidos -->
+            <div class="col-md-6">
+                <h6 class="fw-bold mb-3">Enlaces rápidos</h6>
+                <div class="d-flex flex-wrap gap-3">
+                    <a routerLink="/" class="footer-link">
+                        Inicio
+                    </a>
+                    <a routerLink="/catalog" class="footer-link">
+                        Productos
+                    </a>
+                    <a routerLink="/favorites" class="footer-link">
+                        Favoritos
+                    </a>
+                    <a routerLink="/cart" class="footer-link">
+                        Carrito
+                    </a>
+                    <a routerLink="/orders" class="footer-link">
+                        Mis pedidos
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="footer-divider my-4">
+
+        <div class="text-center">
+            <small class="footer-copy">
+                © 2026 NovaShop. Todos los derechos reservados.
+            </small>
+        </div>
     </div>
 </footer>
