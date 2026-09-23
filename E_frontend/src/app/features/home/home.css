@@ -1,0 +1,12 @@
+.home-section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.home-section + .home-section {
+    padding-top: 2rem;
+}
+
+.section-title {
+    margin-bottom: 2.5rem;
+}

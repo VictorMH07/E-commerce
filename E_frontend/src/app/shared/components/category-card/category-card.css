@@ -1,15 +1,30 @@
 .category-card {
     border: none;
     cursor: pointer;
-    transition: all .3s ease;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 25px rgba(0,0,0,.2);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
 }
 
 .card-img-top {
     height: 180px;
     object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover .card-img-top {
+    transform: scale(1.03);
+}
+
+.category-card .card-body {
+    padding: 1.25rem;
+}
+
+.category-card h5 {
+    margin: 0;
+    font-weight: 600;
 }

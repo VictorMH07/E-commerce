@@ -1,26 +1,20 @@
-/*============================
-    Tarjeta
-==============================*/
-
+/* Tarjeta */
 .product-card{
     border:none;
     overflow:hidden;
-    transition: transform .3s ease, box-shadow .3s ease;    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;    
 }   
 
 .product-card:hover{
     transform:translateY(-8px);
-    box-shadow:0 15px 30px rgba(0,0,0,.2);
+    box-shadow:0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-/*============================
-    Imagen
-==============================*/
-
+/* Imagen */
 .card-img-top{
     height:240px;
     object-fit:cover;
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
     border-radius: 0;
 }
 
@@ -28,33 +22,25 @@
     transform:scale(1.05);
 }
 
-/*============================
-    Titulo
-==============================*/
-
+/* Titulo */
 .card-title{
     font-size:1rem;
     font-weight:600;
     min-height: 50px;
-    transition: color .3s ease;
+    transition: color 0.3s ease;
 }
 
 .product-card:hover .card-title{
     color: #0d6efd
 }
 
-/*============================
-    Calificación
-==============================*/
-
+/* Calificación */
 .rating{
     color:#f39c12;
     font-weight:bold;
 }
 
-/*============================
-    Precio
-==============================*/
+/* Precio */
 
 .old-price{
     color:#888;
@@ -67,9 +53,7 @@
     font-weight:bold;
 }
 
-/* ==============================
-    Botón de favoritos
-================================= */
+/* Botón de favoritos */
 .favorite-button {
     position: absolute;
     top: 10px;
@@ -82,9 +66,20 @@
     justify-content: center;
     font-size: 1.2rem;
     z-index: 2;
-    transition: transform .2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .favorite-button:hover {
     transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón del carrito */
+.product-card .btn-primary {
+    transform: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

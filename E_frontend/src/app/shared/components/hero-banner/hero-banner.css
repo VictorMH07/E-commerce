@@ -4,23 +4,50 @@
 }
 
 .carousel-caption {
-    background: rgba(0, 0, 0, 0.45);
-    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1.5rem 2rem;
     border-radius: 12px;
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .carousel-caption h1 {
     font-weight: bold;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.carousel-caption p {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+}
+
+.carousel-caption .btn {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.carousel-caption .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgb(0, 0, 0, 0.25);
 }
 
 @media(max-width:768px){
-
     .carousel-item img{
         height:300px;
     }
 
+    .carousel-caption {
+        padding: 1rem;
+        max-width: 90%;
+    }
+
     .carousel-caption h1{
         font-size:1.5rem;
+    }
+
+    .carousel-caption p {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
     }
 
 }
