@@ -1,4 +1,4 @@
-<a class="text-decoration-none text-dark" [routerLink]="route()">
+<a class="text-decoration-none text-dark" [routerLink]="route()" (click)="selectCategory()">
     <div class="card category-card shadow-sm h-100">
         <img [src]="image()" [alt]="name()" class="card-img-top">
         <div class="card-body">

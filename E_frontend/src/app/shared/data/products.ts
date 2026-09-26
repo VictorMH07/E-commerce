@@ -57,5 +57,49 @@ export const PRODUCTS: Product[] = [
     rating: 4.5,
     category: 'Hogar',
     stock: 10
-  }
+  },
+
+  {
+    id: 6,
+    name: 'Camiseta deportiva',
+    description: 'Camiseta cómoda y legera, ideal para actividades deportivas y uso diario.',
+    image: 'images/products/camiseta.jpg',
+    price: 89900,
+    rating: 4.6,
+    category: 'Moda',
+    stock: 20
+  },
+
+  {
+    id: 7,
+    name: 'Controlador gaming',
+    description: 'Controlador inalámbrico diseñado para deisfrutar de una experiencia cómoda y precisa durante tus sesiones de juego.',
+    image: 'images/products/control-gaming.jpg',
+    price: 249900,
+    rating: 4.8,
+    category: 'Gaming',
+    stock: 10
+  },
+
+  {
+    id: 8,
+    name: 'El principito',
+    description: 'Edición especial de una de las obras literarias más conocidas, ideal para lectores de todas las edades.',
+    image: 'images/products/el-principito.jpg',
+    price: 49900,
+    rating: 4.9,
+    category: 'Libros',
+    stock: 25
+  },
+
+  {
+    id: 9,
+    name: 'Balón de Fútbol',
+    description: 'Balón de furbol diseñado para entrenamiento y partidos recreativos.',
+    image: 'images/products/balon.jpg',
+    price: 149900,
+    rating: 4.7,
+    category: 'Deportes',
+    stock: 15
+  },
 ];
