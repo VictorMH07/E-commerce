@@ -1,19 +1,21 @@
-<div class="row g-3 mb-4">
+<div class="catalog-toolbar row g-3 mb-4">
     <div class="col-md-6">
         <input class="form-control" type="text" placeholder="Buscar productos..." [value]="productService.searchTerm()" (input)="onSearch($event)">
     </div>
     <div class="col-md-3">
-        <select class="form-select" (change)="onCategoryChange($event)">
+        <select class="form-select" [value]="productService.selectedCategory()" (change)="onCategoryChange($event)">
+
             @for (category of productService.categories(); track category) {
-                <option [value]="category">
+                <option [value]="category" [selected]="category === productService.selectedCategory()">
                     {{ category }}
                 </option>
             }
+            
         </select>
     </div>
     <div class="col-md-3">
-        <select class="form-select" (change)="onSortChange($event)">
-            <option value="defaul">
+        <select class="form-select" [value]="productService.sortOptin()" (change)="onSortChange($event)">
+            <option value="default">
                 Ordenado por
             </option>
             <option value="price-asc">

@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-catalog-toolbar',
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './catalog-toolbar.html',
   styleUrl: './catalog-toolbar.css',
 })
 
 export class CatalogToolbar {
-  constructor(public productService: ProductService) {}
+  
+  public readonly productService = inject(ProductService);
   
   onSearch(event: Event): void{
     const input = event.target as HTMLInputElement;
