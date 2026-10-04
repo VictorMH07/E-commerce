@@ -64,6 +64,12 @@ export class ProductService {
     this.sortOptin.set(option);
   }
 
+  clearFilters(): void {
+    this.searchTerm.set('');
+    this.selectedCategory.set('Todas');
+    this.sortOptin.set('default');
+  }
+
   readonly categories = computed(() => {
     const categories = this._products().map(product => product.category);
     return ['Todas', ...new Set(categories)];

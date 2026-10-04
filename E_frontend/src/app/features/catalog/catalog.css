@@ -11,3 +11,19 @@
     color: #0d6efd;
     font-weight: 600;
 }
+
+.no-results {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 3rem 1rem;
+    border: 1px dashed #dee2e6;
+}
+
+.no-results-icon {
+    font-size: 3rem;
+    color: #6c757d;
+}
+
+.no-results h3 {
+    font-weight: 600;
+}
