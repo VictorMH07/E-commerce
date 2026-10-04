@@ -1,4 +1,22 @@
 <div class="container py-5">
+    <div class="catalog-header mb-4">
+        <h1 class="fw-bold mb-2">
+            Catálogo de productos
+        </h1>
+        <p class="text-muted mb-2">
+            Explora nuestros productos y encuentra lo que necesitas.
+        </p>
+        <p class="product-count mb-0">
+            @if (productService.selectedCategory() !== 'Todas') {
+                <span>
+                    Categoría: <strong>{{ productService.selectedCategory() }}</strong>
+                    .
+                </span>
+            }
+            {{ productService.products().length }}
+            producto(s) encontrado(s)
+        </p>
+    </div>
     <app-catalog-toolbar />
     <div class="row g-4">
         @for (product of productService.products(); track product.id) {
