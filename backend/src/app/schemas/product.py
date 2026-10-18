@@ -8,11 +8,13 @@ class ProductBase(BaseModel):
     old_price: float | None = Field(default=None, gt=0)
     rating: float = Field(default=0.0, ge=0, le=5)
     image: str | None = Field(default=None, max_length=500)
-    category: str = Field(min_legth=1, max_length=100)
+    category: str = Field(min_length=1, max_length=100)
     stock: int = Field(default=0, ge=0)
+
 
 class ProductCreate(ProductBase):
     pass
+
 
 class ProductResponse(ProductBase):
     id: int

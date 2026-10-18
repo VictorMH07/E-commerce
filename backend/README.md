@@ -145,6 +145,108 @@ Para utilizar NovaShop localmente, ejecuta el backend y el frontend en terminale
 - **No se muestran los productos en Angular:** verifica que FastAPI esté ejecutándose y que la URL de la API sea correcta.
 - **Error de CORS:** comprueba que la configuración del backend permita el origen local utilizado por Angular, normalmente `http://localhost:4200`.
 
+
+## Reconstruir la base de datos PostgreSQL
+
+### Requisitos
+
+- PostgreSQL instalado y en ejecución.
+- Python 3.13 o compatible con el proyecto.
+- `uv` instalado.
+- Configuración de conexión en el archivo `backend/.env`.
+
+### 1. Crear la base de datos y el usuario
+
+Desde la terminal de PostgreSQL, con una cuenta administradora, crea el usuario y la base de datos para NovaShop.
+
+Adapta los comandos a las credenciales que hayas elegido:
+
+```sql
+CREATE USER novashop_user WITH PASSWORD 'TU_CONTRASEÑA';
+CREATE DATABASE novashop OWNER novashop_user ENCODING 'UTF8';
+```
+
+No reutilices literalmente `TU_CONTRASEÑA`: reemplázala por una contraseña propia y segura. Si el usuario o la base de datos ya existen, no repitas esos comandos.
+
+### 2. Configurar las variables de entorno
+
+Crea `backend/.env` con las variables de conexión correspondientes:
+
+```dotenv
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=novashop
+DB_USER=novashop_user
+DB_PASSWORD=TU_CONTRASEÑA
+```
+
+Este archivo contiene credenciales privadas. No lo subas a GitHub.
+
+### 3. Crear las tablas
+
+Desde la raíz del proyecto, entra en la carpeta del backend e inicia la API:
+
+```bash
+cd backend
+uv run uvicorn app.main:app --app-dir src --reload
+```
+
+Al iniciar, la aplicación crea las tablas que todavia no existen.
+
+Cuando hayas comprobado que la API inicia correctamente, detén el servidor con `Ctrl + C`.
+
+### 4. Cargar los productos iniciales
+
+Este paso está pensado para una base de datos nueva cuya tabla `products` esté vacia.
+
+Desde la carpeta `backend`, regresa a la raíz del proyecto:
+
+```bash
+cd ..
+```
+
+Ejecuta el script SQL:
+
+```bash
+psql -U novashop_user -d novashop -h localhost -f backend/sql/seed_produts.sql
+```
+
+Introduce la contraseña cuando se solicite.
+
+El script carga los nueve productos iniciales del catálogo. No lo ejecutes sobre una tabla que ya contenga esos identificadores, porque se produciría un conflicto de claves primarias.
+
+### 5. Verificar los datos
+
+Conéctate a PostgreSQL:
+
+```bash
+psql -U novashop_user -d novashop -h localhost
+```
+
+Ejectua la siguiente consulta:
+
+```sql
+SELECT id, name, category, price, stock
+FROM products
+ORDER BY id;
+```
+
+Deben aparecer los nueve productos iniciales, con identificadores del 3 al 11.
+
+Para salir de PostgreSQL, ejecuta:
+
+```sql
+\q
+```
+
+### 6. Probar la API
+
+Inicia la API y abre:
+
+- Documentación interactiva: http://127.0.0.1:8000/docs
+- Catálogo de productos: http://127.0.0.1:8000/products/
+
+
 ## Documentación relacionada
 
 - [Documentación general de NovaShop](../README.md)
