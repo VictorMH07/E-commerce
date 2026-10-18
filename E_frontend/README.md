@@ -1,59 +1,125 @@
-# EFrontend
+# NovaShop — Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.3.
+Frontend de NovaShop, una tienda virtual desarrollada con Angular 20. La aplicación permite explorar productos, buscar artículos, filtrar por categorías y gestionar el proceso de compra.
 
-## Development server
+## Tecnologías utilizadas
 
-To start a local development server, run:
+- Angular 20
+- TypeScript
+- HTML y CSS
+- Bootstrap
+- Bootstrap Icons
+
+## Requisitos previos
+
+Antes de ejecutar el frontend, necesitas tener instalado:
+
+- Node.js y npm.
+- Git, para clonar el repositorio si es necesario.
+- El backend de NovaShop ejecutándose para consultar los productos desde la API.
+
+## Instalación
+
+Desde la carpeta `E_frontend`, ejecuta:
+
+```bash
+npm install
+```
+
+Este comando instala las dependencias definidas en `package.json`.
+
+## Configuración de la API
+
+La URL del backend se configura en:
+
+`src/environments/environment.ts`
+
+La configuración local actual utiliza:
+
+```typescript
+export const environment = {
+  production: false,
+  apiUrl: 'http://127.0.0.1:8000'
+};
+```
+
+El backend debe estar disponible en esa dirección para que el frontend pueda consultar los productos.
+
+## Ejecutar en desarrollo
+
+Desde la carpeta `E_frontend`, ejecuta:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Si Angular CLI no está disponible globalmente, utiliza:
 
 ```bash
-ng generate component component-name
+npx ng serve
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Abre en el navegador:
 
-```bash
-ng generate --help
-```
+http://localhost:4200/
 
-## Building
+La aplicación se actualizará automáticamente al guardar cambios en los archivos fuente.
 
-To build the project run:
+## Compilar el proyecto
+
+Para compilar la aplicación, ejecuta:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Los archivos generados se almacenan en la carpeta `dist/`.
 
-## Running unit tests
+## Funcionalidades principales
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Catálogo de productos.
+- Búsqueda, filtrado y ordenamiento.
+- Detalle de productos.
+- Carrito de compras.
+- Productos favoritos.
+- Registro e inicio de sesión.
+- Checkout e historial de pedidos.
+- Comunicación con la API mediante solicitudes HTTP.
+
+## Estructura general
+
+```text
+src/
+├── app/
+│   ├── pages/
+│   └── shared/
+│       ├── components/
+│       ├── interfaces/
+│       └── services/
+├── environments/
+└── main.ts
+
+public/
+└── images/
+    ├── banners/
+    ├── categories/
+    └── products/
+```
+
+La estructura puede variar a medida que el proyecto evolucione.
+
+## Pruebas
+
+Para ejecutar las pruebas unitarias configuradas en Angular, utiliza:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+Este comando requiere que las dependencias y la configuración de pruebas del proyecto estén disponibles.
 
-For end-to-end (e2e) testing, run:
+## Documentación relacionada
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- [Documentación general de NovaShop](../README.md)
+- [Documentación del backend](../backend/README.md)
+- [Documentación oficial de Angular](https://angular.dev/)
