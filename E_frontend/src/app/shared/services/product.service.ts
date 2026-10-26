@@ -18,6 +18,13 @@ export class ProductService {
   readonly sortOptin = signal('default');
 
   constructor() {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.loading.set(true);
+    this.error.set(null);
+
     this.productApi.getProducts().subscribe({
       next: (products) => {
         this._products.set(products);
