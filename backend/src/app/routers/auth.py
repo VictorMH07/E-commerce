@@ -5,7 +5,12 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import (
+    PasswordUpdate,
+    UserCreate,
+    UserResponse,
+    UserUpdate,
+)
 from app.security import (
     create_access_token,
     get_current_user,
@@ -69,3 +74,42 @@ def login(
 @router.get("/me", response_model=UserResponse)
 def read_current_user(current_user: User = Depends(get_current_user)):
     return current_user
+
+@router.put("/me", response_model=UserResponse)
+def update_current_user(
+    user_data: UserUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    current_user.name = user_data.name
+
+    db.commit()
+    db.refresh(current_user)
+
+    return current_user
+
+@router.put("/me/password", status_code=status.HTTP_200_OK)
+def update_password(
+    password_data: PasswordUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if not verify_password(
+        password_data.current_password,
+        current_user.hashed_password,
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La contraseña actual es incorrecta",
+        )
+
+    if password_data.current_password == password_data.new_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="La nueva contraseña debe ser diferente a la actual",
+        )
+
+    current_user.hashed_password = hash_password(password_data.new_password)
+
+    db.commit()
+    return {"message": "Contraseña actualizada correctamente"}

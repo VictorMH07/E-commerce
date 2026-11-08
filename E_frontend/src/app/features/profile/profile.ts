@@ -49,12 +49,51 @@ export class Profile {
     const { name } = this.profileForm.getRawValue();
     const updatedUser = {...currentUser, name,};
 
-    this.authService.updateUser(updatedUser);
-    this.successMessage = 'Perfil actualizado correctamente';
+    this.successMessage = '';
+
+    this.authService.updateUser(updatedUser).subscribe({
+      next: () => {
+        this.successMessage = 'Perfil actualizdo correctamente';
+      },
+      error: (error) => {
+        console.error('Error el actualizar el perfil:', error);
+        this.successMessage = '';
+      },
+    });
   }
 
   changePassword(): void {
     this.passwordSuccessMessage = '';
-    this.passwordErrorMessage = 'El cambio de contraseña estará disponible cuando implementemos este endpoint.';
+    this.passwordErrorMessage = '';
+
+    if (this.passwordForm.invalid){
+      this.passwordForm.markAllAsTouched();
+      return;
+    }
+
+    const {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    } = this.passwordForm.getRawValue();
+
+    if (newPassword !== confirmPassword) {
+      this.passwordErrorMessage = 'Las contraseñas nuevas no coinciden.';
+      return;
+    }
+
+    this.authService.changePassword(
+      currentPassword,
+      newPassword
+    ).subscribe({
+      next: (response) => {
+        this.passwordSuccessMessage = response.message;
+        this.passwordForm.reset();
+      },
+      error: (error) => {
+        this.passwordErrorMessage =
+          error.error?.detail ?? 'No se puede actualizar la contraseña.';
+      },
+    });
   }
 }

@@ -86,15 +86,49 @@ export class AuthService {
     localStorage.removeItem('currentUser');
   }
 
-  updateUser(updatedUser: User): void {
-    this._currentUser.set(updatedUser);
+  updateUser(updatedUser: User): Observable<User> {
+    const token = localStorage.getItem(this.tokenKey);
 
-    this._users.update(users =>
-      users.map(user =>
-        user.id === updatedUser.id ? updatedUser : user
-      )
+    return this.http.put<User>(
+      `${this.apiUrl}/me`,
+      { name: updatedUser.name },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).pipe(
+      tap(user => {
+        this._currentUser.set(user);
+
+        this._users.update(users =>
+          users.map(existingUser =>
+            existingUser.id === user.id ? user : existingUser
+          )
+        );
+      })
     );
-  }  
+  }
+
+  changePassword(
+    currentPassword: string,
+    newPassword: string
+  ): Observable<{ message: string }> {
+   const token = localStorage.getItem(this.tokenKey);
+
+   return this.http.put<{ message: string }>(
+      `${this.apiUrl}/me/password`,
+      {
+        current_password: currentPassword,
+        new_password: newPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  }
 
   private loadCurrentUser(): void {
     const token = localStorage.getItem(this.tokenKey);

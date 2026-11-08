@@ -29,7 +29,7 @@
                         </p>
                     </div>
                     @if (successMessage) {
-                        <div class="alert alert-succes">
+                        <div class="alert alert-success">
                             <i class="bi bi-check-circle me-2"></i>{{ successMessage }}
                         </div>
                     }
@@ -72,7 +72,7 @@
                         </label>
                         <input id="newPassword" type="password" class="form-control" formControlName="newPassword">
                         <div class="password-help text-muted mt-1">
-                            La contrseña debe tener al menos 6 caracteres.
+                            La contrseña debe tener al menos 8 caracteres.
                         </div>
                         @if (passwordForm.controls.newPassword.invalid && passwordForm.controls.newPassword.touched) {
                             <div class="text-danger small mt-1">
