@@ -58,8 +58,8 @@ export class CartService {
     this.saveCart();
   }
 
-  private getStorageKey(userId?: string): string {
-    return userId? `cart_${userId}`: 'cart_guest';
+  private getStorageKey(userId?: number): string {
+    return userId !== undefined ? `cart_${userId}`: 'cart_guest';
   }
 
   private saveCart(): void {
@@ -68,8 +68,9 @@ export class CartService {
     localStorage.setItem(this.getStorageKey(userId), JSON.stringify(this._items()));
   }
 
-  private loadCart(userId?: string): void {
+  private loadCart(userId?: number): void {
     const storedCart = localStorage.getItem(this.getStorageKey(userId));
+
     if (storedCart) {
       this._items.set(JSON.parse(storedCart));
     }

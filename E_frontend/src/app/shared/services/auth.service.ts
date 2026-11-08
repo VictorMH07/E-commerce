@@ -1,11 +1,27 @@
 import { Injectable, signal } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, switchMap, tap, catchError, throwError } from 'rxjs';
 
 import { User } from '../interfaces/user.interface';
+
+interface AuthToken {
+  access_token: string;
+  token_type: string
+}
+
+interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+
+  private readonly apiUrl = 'http://127.0.0.1:8000/auth';
+  private readonly tokenKey = 'access_token';
 
   private readonly _users = signal<User[]>([]);
   readonly users = this._users.asReadonly();
@@ -15,66 +31,80 @@ export class AuthService {
 
   readonly isLoggedIn = () => this._currentUser() != null;
 
-  constructor() {
-    this.loadUsers();
+  constructor(private http: HttpClient) {
     this.loadCurrentUser();
   }
 
-  register(user: User): boolean {
-    const existingUser = this._users().find(existing => existing.email === user.email);
-    if (existingUser) {
-      return false;
-    }
-    this._users.update(users => [...users, user]);
-    this.saveUsers();
-    return true;
+  register(user: RegisterData): Observable<User> {
+   return this.http.post<User>(
+     `${this.apiUrl}/register`, user);
   }
 
-  login(email: string, password: string): User | null {
-    const user = this._users().find(
-      user => user.email === email && user.password === password
-    );
-    if (!user) {
-      return null;
-    }
+  login(email: string, password: string): Observable<User> {
+    const body = new HttpParams()
+      .set('username', email)
+      .set('password', password);
 
-    this._currentUser.set(user);
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    return user;
+    return this.http.post<AuthToken>(
+      `${this.apiUrl}/login`,
+      body,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+      }
+    ).pipe(
+      tap(response => {
+        localStorage.setItem(this.tokenKey, response.access_token);
+      }),
+      switchMap(() => this.getCurrentUser()),
+      catchError(error => {
+        this.logout();
+	      return throwError(() => error);
+      })
+    );
+  }
+
+  getCurrentUser(): Observable<User> {
+    const token = localStorage.getItem(this.tokenKey);
+
+    return this.http.get<User>(
+      `${this.apiUrl}/me`,
+      {
+        headers: {
+	        Authorization: `Bearer ${token}`,
+        },
+      }
+    ).pipe(
+      tap(user => this._currentUser.set(user))
+    );
   }
 
   logout(): void {
     this._currentUser.set(null);
+    localStorage.removeItem(this.tokenKey);
     localStorage.removeItem('currentUser');
   }
 
   updateUser(updatedUser: User): void {
     this._currentUser.set(updatedUser);
 
-    const users = this._users().map(user =>
-      user.id === updatedUser.id ? updatedUser : user
+    this._users.update(users =>
+      users.map(user =>
+        user.id === updatedUser.id ? updatedUser : user
+      )
     );
-
-    this._users.set(users);
-    this.saveUsers();
-    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
   }  
 
-  private saveUsers(): void {
-    localStorage.setItem('users', JSON.stringify(this._users()));
-  }
-
-  private loadUsers(): void {
-    const storedUsers = localStorage.getItem('users') ?? localStorage.getItem('user');
-    if (storedUsers !== null) {
-      this._users.set(JSON.parse(storedUsers));
-    }
-  }
-
   private loadCurrentUser(): void {
-    const storedUser = localStorage.getItem('currentUser');
-    if (storedUser != null) {
-      this._currentUser.set(JSON.parse(storedUser));
+    const token = localStorage.getItem(this.tokenKey);
+
+    if (!token) {
+      return;
     }
+
+    this.getCurrentUser().subscribe({
+      error: () => this.logout(),
+    });
   }
 }

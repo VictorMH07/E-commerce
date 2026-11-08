@@ -9,12 +9,14 @@ class Settings(BaseSettings):
     db_name: str = "novashop"
     db_user: str = "novashop_user"
     db_password: str = "admin123"
+    secret_key: str
 
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
         extra="ignore",
     )
+
 
 settings = Settings()
 
@@ -31,8 +33,10 @@ SessionLocal = sessionmaker(
     autocommit=False,
 )
 
+
 class Base(DeclarativeBase):
     pass
+
 
 def get_db():
     db = SessionLocal()

@@ -33,8 +33,8 @@ export class FavoriteService {
     this.saveFavorites();
   }
 
-  private getStorageKey(userId?: string): string {
-    return userId? `favorites_${userId}`: 'favorites_guest';
+  private getStorageKey(userId?: number): string {
+    return userId !== undefined ? `favorites_${userId}`: 'favorites_guest';
   }
 
   private saveFavorites(): void {
@@ -42,7 +42,7 @@ export class FavoriteService {
     localStorage.setItem(this.getStorageKey(userId), JSON.stringify(this._favorites()));
   }
 
-  private loadFavorites(userId?: string): void {
+  private loadFavorites(userId?: number): void {
     const storedFavorites = localStorage.getItem(this.getStorageKey(userId));
 
     if (storedFavorites) {

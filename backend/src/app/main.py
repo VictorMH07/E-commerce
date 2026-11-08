@@ -2,10 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
-from app.models import Product
+from app.models import Product, User
+from app.routers.auth import router as auth_router
 from app.routers.products import router as products_router
 
-_ = Product
+_ = (Product, User)
 
 app = FastAPI(
     title="NovaShop API",
@@ -26,6 +27,8 @@ app.add_middleware(
 
 Base.metadata.create_all(bind=engine)
 app.include_router(products_router)
+app.include_router(auth_router)
+
 
 @app.get("/")
 def home():

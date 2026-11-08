@@ -18,15 +18,18 @@ export class Profile {
   passwordSuccessMessage = '';
   passwordErrorMessage = '';
 
-  constructor(public authService: AuthService, private formBuilder: FormBuilder) {
+  constructor(
+    public authService: AuthService,
+    private formBuilder: FormBuilder) {
     const currentUser = this.authService.currentUser();
+
     this.profileForm = this.formBuilder.nonNullable.group({
       name: [currentUser?.name ?? '', Validators.required],
     });
 
     this.passwordForm = this.formBuilder.nonNullable.group({
       currentPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      newPassword: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
     });    
   }
@@ -52,36 +55,6 @@ export class Profile {
 
   changePassword(): void {
     this.passwordSuccessMessage = '';
-    this.passwordErrorMessage = '';
-
-    if (this.passwordForm.invalid) {
-      this.passwordForm.markAllAsTouched();
-      return;
-    }
-
-    const {
-      currentPassword,
-      newPassword,
-      confirmPassword 
-    } = this.passwordForm.getRawValue();
-
-    const currentUser = this.authService.currentUser();
-    if (!currentUser) {
-      return;
-    }
-    if (currentPassword !== currentUser?.password) {
-      this.passwordErrorMessage = 'La contraseña actual es incorrecta';
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      this.passwordErrorMessage = 'La nueva contraseña no coincide';
-      return;
-    }
-
-    const updateUser = {...currentUser, password: newPassword};
-
-    this.authService.updateUser(updateUser);
-    this.passwordForm.reset();
-    this.passwordSuccessMessage = 'Contraseña actualizada correctamente';
+    this.passwordErrorMessage = 'El cambio de contraseña estará disponible cuando implementemos este endpoint.';
   }
 }

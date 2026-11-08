@@ -11,10 +11,14 @@ import { AuthService } from '../../../shared/services/auth.service';
   styleUrl: './login.css',
 })
 export class Login {
+
   loginForm;
   errorMessage = ''
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router) {
     this.loginForm = this.formBuilder.nonNullable.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -28,16 +32,23 @@ export class Login {
     }
 
     const { email, password } = this.loginForm.getRawValue();
-    const user = this.authService.login(email, password);
 
-    if (!user) {
-      this.errorMessage = 'Correo o contraseña incorrectos.';
-      return;
-    }
+    this.errorMessage = '';
 
-    console.log('Inicio de sesión correcto');
-    console.log(user);
-
-    this.router.navigate(['/']);
+    this.authService.login(email, password).subscribe({
+      next: (user) => {
+        console.log('Inicio de sesión correcto', user);
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        if (error.status === 401) {
+          this.errorMessage = 'Correo o contraseña incorrectos.';
+        } else if (error.status === 0) {
+          this.errorMessage = 'No se pudo conectar con el servidor.';
+        }else {
+          this.errorMessage = 'Ocurrió un error al iniciar sesión';
+        }
+      },
+    });
   }
 } 

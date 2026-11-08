@@ -24,8 +24,8 @@ export class OrderService {
     this.saveOrders();
   }
 
-  private getStorageKey(userId?: string): string {
-    return userId? `orders_${userId}`: 'orders_guest';
+  private getStorageKey(userId?: number): string {
+    return userId !== undefined ? `orders_${userId}`: 'orders_guest';
   }
 
   private saveOrders(): void {
@@ -33,8 +33,9 @@ export class OrderService {
     localStorage.setItem(this.getStorageKey(userId), JSON.stringify(this._orders()));
   }
 
-  private loadOrders(userId?: string): void {
+  private loadOrders(userId?: number): void {
     const storedOrders = localStorage.getItem(this.getStorageKey(userId));
+
     if (storedOrders) {
       this._orders.set(JSON.parse(storedOrders));
     }
